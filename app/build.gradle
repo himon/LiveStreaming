@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.futang.livestreaming"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    //Android
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+    //Dagger 2
+    compile 'com.google.dagger:dagger:2.1'
+    compile 'com.google.dagger:dagger-producers:2.1'
+    apt 'com.google.dagger:dagger-compiler:2.1'
+    //ReactiveX
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    //Okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    //Others
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:4.1.0'
+    //日志记录函数库
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('libs/MobCommons-2016.0401.1602.jar')
+    compile files('libs/MobTools-2016.0401.1602.jar')
+    compile files('libs/ShareSDK-Core-2.7.1.jar')
+    compile files('libs/ShareSDK-QQ-2.7.1.jar')
+    compile files('libs/ShareSDK-Wechat-2.7.1.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.7.1.jar')
+}
