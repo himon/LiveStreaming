@@ -5,30 +5,43 @@ import android.os.Bundle;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.futang.livestreaming.R;
+import com.futang.livestreaming.app.LiveApplication;
+import com.futang.livestreaming.ui.activity.MainActivity;
 import com.futang.livestreaming.ui.base.BaseActivity;
+import com.futang.livestreaming.ui.module.RegisterActivityModule;
+import com.futang.livestreaming.ui.module.SplashActivityModule;
+import com.futang.livestreaming.ui.presenter.SplashActivityPresenter;
+import com.futang.livestreaming.ui.view.ISplashView;
 
 import java.util.HashMap;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.tencent.qq.QQ;
 
-public class SplashActivity extends BaseActivity implements View.OnClickListener {
+public class SplashActivity extends BaseActivity implements ISplashView, View.OnClickListener {
 
     @Bind(R.id.btn_login)
     Button mBtnLogin;
     @Bind(R.id.btn_register)
     Button mBtnRegister;
     @Bind(R.id.btn_qq)
-    Button mBtnQQ;
+    ImageButton mBtnQQ;
     @Bind(R.id.btn_wechat)
-    Button mBtnWechat;
+    ImageButton mBtnWechat;
     private Platform platform;
+
+    @Inject
+    SplashActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +55,19 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void setupActivityComponent() {
+        LiveApplication.get(this)
+                .getAppComponent()
+                .plus(new SplashActivityModule(this))
+                .inject(this);
+    }
+
+    @Override
+    protected void setUpView() {
+
+    }
+
+    @Override
+    protected void setUpData() {
 
     }
 
@@ -57,6 +83,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                toLogin();
                 break;
             case R.id.btn_register:
                 toRegister();
@@ -69,18 +96,24 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private void toLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     private void qq() {
         platform = ShareSDK.getPlatform(this, QQ.NAME);
         platform.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int action, HashMap<String, Object> res) {
                 if (action == Platform.ACTION_USER_INFOR) {
-                    platform.getDb().getUserId();
-                    String id = res.get("id").toString();
-                    String name=res.get("name").toString();//用户名
-                    String description=res.get("description").toString();//描述
-                    String profile_image_url=res.get("profile_image_url").toString();//头像链接
-                    Message msg = new Message();
+                    PlatformDb db = platform.getDb();
+                    mPresenter.qqLogin(
+                            db.getUserId(),
+                            db.getUserName(),
+                            db.getUserGender(),
+                            db.getUserIcon(), "1", "0");
+
                 }
             }
 
@@ -110,5 +143,11 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
         if (platform != null && platform.isAuthValid()) {
             platform.removeAccount(true);
         }
+    }
+
+    @Override
+    public void toMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

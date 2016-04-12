@@ -9,6 +9,42 @@
 
     <include layout="@layout/layout_toolbar" />
 
+    <LinearLayout
+        android:id="@+id/ll_user_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
+        android:background="@drawable/shape_radius_stroke_upload_head_icon_black"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_camera_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="上传头像"
+            android:textColor="@color/toolbar_title_color" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:scaleType="centerInside"
+        android:visibility="gone"></ImageView>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -23,19 +59,26 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="昵称"
+            android:textColor="@color/font_text_black_register" />
+
         <EditText
-            android:id="@+id/et_phone"
+            android:id="@+id/et_nick_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:inputType="phone"
-            android:hint="请输入手机号"
+            android:hint="请输入昵称"
             android:textColor="@color/font_text_gray_register"
-            android:textColorHint="@color/font_text_hint_gray_register" />
+            android:textColorHint="@color/font_text_hint_gray_register"
+            android:textSize="@dimen/font_text_size_16" />
 
         <ImageView
-            android:id="@+id/iv_phone_delete"
+            android:id="@+id/iv_nick_name_delete"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:scaleType="centerInside"
@@ -58,24 +101,31 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="ID"
+            android:textColor="@color/font_text_black_register" />
+
         <EditText
-            android:id="@+id/et_code"
+            android:id="@+id/et_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="请输入验证码"
+            android:hint="请输入ID"
             android:textColor="@color/font_text_gray_register"
-            android:textColorHint="@color/font_text_hint_gray_register" />
+            android:textColorHint="@color/font_text_hint_gray_register"
+            android:textSize="@dimen/font_text_size_16" />
 
-        <Button
-            android:id="@+id/btn_get_code"
-            android:layout_width="70dp"
-            android:layout_height="35dp"
-            android:background="@drawable/shape_radius_stroke_button_black"
-            android:text="发送"
-            android:textColor="@color/font_text_black_register"
-            android:textSize="@dimen/font_text_size_14" />
+        <ImageView
+            android:id="@+id/iv_id_delete"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/img_eidttext_delete"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -94,19 +144,26 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="性别"
+            android:textColor="@color/font_text_black_register" />
+
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_sex"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="请输入6至16位密码"
-            android:inputType="textPassword"
+            android:hint="请输入性别"
             android:textColor="@color/font_text_gray_register"
-            android:textColorHint="@color/font_text_hint_gray_register" />
+            android:textColorHint="@color/font_text_hint_gray_register"
+            android:textSize="@dimen/font_text_size_16" />
 
         <ImageView
-            android:id="@+id/iv_password_delete"
+            android:id="@+id/iv_sex_delete"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:scaleType="centerInside"
@@ -121,7 +178,7 @@
         android:background="@color/line_gray_register" />
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"

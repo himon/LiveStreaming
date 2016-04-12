@@ -1,5 +1,6 @@
 package com.futang.livestreaming.ui.activity.account;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.widget.EditText;
 
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
+import com.futang.livestreaming.ui.activity.MainActivity;
 import com.futang.livestreaming.ui.base.BaseActivity;
+import com.futang.livestreaming.ui.base.ToolbarActivity;
 import com.futang.livestreaming.ui.module.LoginActivityModule;
 import com.futang.livestreaming.ui.module.RegisterActivityModule;
 import com.futang.livestreaming.ui.presenter.LoginActivityPresenter;
@@ -19,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends BaseActivity implements ILoginView, View.OnClickListener {
+public class LoginActivity extends ToolbarActivity implements ILoginView, View.OnClickListener {
 
     @Bind(R.id.et_phone)
     EditText mEtPhone;
@@ -34,10 +37,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login, R.string.title_login, MODE_BACK);
         ButterKnife.bind(this);
-
-        initEvent();
     }
 
     private void initEvent() {
@@ -53,6 +54,16 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     }
 
     @Override
+    protected void setUpView() {
+        initEvent();
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
@@ -65,5 +76,11 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void toMainActivity() {
+        Intent intent = new Intent(this, RegisterNextActivity.class);
+        startActivity(intent);
     }
 }

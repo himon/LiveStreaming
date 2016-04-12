@@ -22,14 +22,46 @@ public class LiveManager {
         this.liveApi = liveApi;
     }
 
+    /**
+     * 手机注册
+     *
+     * @param phone
+     * @param loginPwd
+     * @return
+     */
     public Observable<UserEntity> register(String phone, String loginPwd) {
         return getLiveApi().register(phone, "0", loginPwd, "0", "0")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 手机登录
+     *
+     * @param phone
+     * @param loginPwd
+     * @return
+     */
     public Observable<UserEntity> login(String phone, String loginPwd) {
-        return getLiveApi().login(phone, "0", loginPwd)
+        return getLiveApi().login(phone, loginPwd, "0")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 第三方登录
+     *
+     * @param qq
+     * @param userName
+     * @param sex
+     * @param ico
+     * @param loginType
+     * @param isCompany
+     * @return
+     */
+
+    public Observable<UserEntity> quickLogin(String qq, String userName, String sex, String ico, String loginType, String isCompany) {
+        return getLiveApi().login(qq, userName, sex, ico, loginType, isCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

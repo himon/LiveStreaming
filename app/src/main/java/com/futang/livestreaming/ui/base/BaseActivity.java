@@ -19,6 +19,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void setupActivityComponent();
 
+    protected abstract void setUpView();
+
+    protected abstract void setUpData();
+
     public AppProductionComponent getAppProductionComponent() {
         return LiveApplication.get(this).getAppProductionComponent();
     }

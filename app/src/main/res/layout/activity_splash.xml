@@ -1,64 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:background="@drawable/img_splash_bg1"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/iv_login"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/img_logo" />
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:layout_below="@+id/iv_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/img_logoword" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_login"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="登录"
-            android:textColor="@android:color/black" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_register"
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/img_login_button_bg"
+                android:gravity="center"
+                android:text="登录"
+                android:textColor="@android:color/black" />
+
+            <ImageButton
+                android:id="@+id/btn_qq"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="25dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/img_qq_icon"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="注册"
-            android:textColor="@android:color/black" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:background="@drawable/img_register_button_bg"
+                android:gravity="center"
+                android:text="注册"
+                android:textColor="@android:color/black" />
+
+            <ImageButton
+                android:id="@+id/btn_wechat"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="25dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/img_wechat_icon"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_qq"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="QQ"
-            android:textColor="@android:color/black" />
-
-        <Button
-            android:id="@+id/btn_wechat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="微信"
-            android:textColor="@android:color/black" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

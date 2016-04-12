@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--注册-->
+    <color name="toolbar_title_color">#2b2b2b</color>
+    <color name="line_gray_register">#cdcdcd</color>
+    <color name="font_text_gray_register">#1b1b1b</color>
+    <color name="font_text_hint_gray_register">#979797</color>
+    <color name="font_text_black_register">#2f2f2f</color>
+    <color name="font_text_gray_register_button">#cfcfcf</color>
 </resources>

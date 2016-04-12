@@ -22,4 +22,14 @@ public class MainActivity extends BaseActivity implements IMainView {
                 .plus(new MainActivityModule(this))
                 .inject(this);
     }
+
+    @Override
+    protected void setUpView() {
+
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
 }
