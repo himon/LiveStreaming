@@ -11,16 +11,15 @@ import com.futang.livestreaming.ui.view.IMainView;
 public class MainActivity extends BaseActivity implements IMainView {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-
-    @Override
     protected void setupActivityComponent() {
         LiveApplication.get(this).getUserComponent()
                 .plus(new MainActivityModule(this))
                 .inject(this);
+    }
+
+    @Override
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_main);
     }
 
     @Override

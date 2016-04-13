@@ -5,4 +5,6 @@ package com.futang.livestreaming.ui.view;
  */
 public interface ILoginView {
     void toMainActivity();
+
+    void toEditUserInfo();
 }

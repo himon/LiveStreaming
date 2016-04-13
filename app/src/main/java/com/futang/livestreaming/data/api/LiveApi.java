@@ -2,7 +2,9 @@ package com.futang.livestreaming.data.api;
 
 import com.futang.livestreaming.data.entity.UserEntity;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -30,6 +32,11 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST("App_API.ashx?action=LoginCheck")
     Observable<UserEntity> login(@Field("loginId") String loginId, @Field("loginPwd") String loginPwd, @Field("loginType") String loginType);
+
+
+    @Multipart
+    @POST("App_API.ashx?action=ModefUser")
+    Observable<UserEntity> editUserInfo(@Part("picture") MultipartBody.Part file, @Part("userName") RequestBody userName, @Part("sex") RequestBody sex, @Part("loginId") RequestBody loginId);
 }
 
 

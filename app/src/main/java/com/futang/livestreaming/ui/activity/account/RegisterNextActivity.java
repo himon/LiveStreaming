@@ -76,15 +76,6 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
     RegisterNextActivityPresenter mPresenter;
     private File mFile;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_next, R.string.title_user_info, MODE_BACK);
-        ButterKnife.bind(this);
-
-        initEvent();
-    }
-
     private void initEvent() {
         mBtnNext.setOnClickListener(this);
         mLLUserIcon.setOnClickListener(this);
@@ -96,13 +87,20 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
     }
 
     @Override
-    protected void setUpView() {
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_register_next, R.string.title_user_info, MODE_BACK);
+        ButterKnife.bind(this);
+    }
 
+    @Override
+    protected void setUpView() {
+        initEvent();
     }
 
     @Override
     protected void setUpData() {
-
+        String id = mPresenter.getmRepositoriesManager().getmUser().getBody().getLoginId();
+        mEtID.setText(id);
     }
 
     @Override
@@ -113,6 +111,7 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
                 break;
             case R.id.btn_next:
                 mPresenter.nextStep(mFile, mEtNickName.getText().toString(), mEtSex.getText().toString(), mEtID.getText().toString(), new MyStringCallback());
+                //mPresenter.nextStep(mFile, mEtNickName.getText().toString(), mEtSex.getText().toString(), mEtID.getText().toString());
                 break;
         }
     }
@@ -196,25 +195,21 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
         }
     };
 
-    public class MyStringCallback extends UserCallback
-    {
+    public class MyStringCallback extends UserCallback {
         @Override
-        public void onBefore(Request request)
-        {
+        public void onBefore(Request request) {
             super.onBefore(request);
             //setTitle("loading...");
         }
 
         @Override
-        public void onAfter()
-        {
+        public void onAfter() {
             super.onAfter();
             //setTitle("Sample-okHttp");
         }
 
         @Override
-        public void onError(Call call, Exception e)
-        {
+        public void onError(Call call, Exception e) {
             System.out.print(e);
         }
 
@@ -224,8 +219,7 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
         }
 
         @Override
-        public void inProgress(float progress)
-        {
+        public void inProgress(float progress) {
 //            Log.e(TAG, "inProgress:" + progress);
 //            mProgressBar.setProgress((int) (100 * progress));
         }

@@ -34,13 +34,6 @@ public class LoginActivity extends ToolbarActivity implements ILoginView, View.O
     @Inject
     LoginActivityPresenter mPresenter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login, R.string.title_login, MODE_BACK);
-        ButterKnife.bind(this);
-    }
-
     private void initEvent() {
         mBtnLogin.setOnClickListener(this);
     }
@@ -51,6 +44,12 @@ public class LoginActivity extends ToolbarActivity implements ILoginView, View.O
                 .getAppComponent()
                 .plus(new LoginActivityModule(this))
                 .inject(this);
+    }
+
+    @Override
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_login, R.string.title_login, MODE_BACK);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -80,6 +79,12 @@ public class LoginActivity extends ToolbarActivity implements ILoginView, View.O
 
     @Override
     public void toMainActivity() {
+        Intent intent = new Intent(this, RegisterNextActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void toEditUserInfo() {
         Intent intent = new Intent(this, RegisterNextActivity.class);
         startActivity(intent);
     }

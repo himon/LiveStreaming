@@ -42,15 +42,6 @@ public class RegisterActivity extends ToolbarActivity implements IRegisterView, 
     @Inject
     RegisterActivityPresenter mPresetner;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register, R.string.title_register, MODE_BACK);
-        ButterKnife.bind(this);
-
-        initEvent();
-    }
-
     private void initEvent() {
         mBtnRegister.setOnClickListener(this);
 
@@ -106,8 +97,14 @@ public class RegisterActivity extends ToolbarActivity implements IRegisterView, 
     }
 
     @Override
-    protected void setUpView() {
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_register, R.string.title_register, MODE_BACK);
+        ButterKnife.bind(this);
+    }
 
+    @Override
+    protected void setUpView() {
+        initEvent();
     }
 
     @Override

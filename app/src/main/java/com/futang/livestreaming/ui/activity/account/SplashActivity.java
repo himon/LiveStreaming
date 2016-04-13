@@ -44,16 +44,6 @@ public class SplashActivity extends BaseActivity implements ISplashView, View.On
     SplashActivityPresenter mPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
-        //初始化SDK
-        ShareSDK.initSDK(this);
-        initEvent();
-    }
-
-    @Override
     protected void setupActivityComponent() {
         LiveApplication.get(this)
                 .getAppComponent()
@@ -62,8 +52,17 @@ public class SplashActivity extends BaseActivity implements ISplashView, View.On
     }
 
     @Override
-    protected void setUpView() {
+    protected void setUpContentView() {
+        setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
+        //初始化SDK
+        ShareSDK.initSDK(this);
 
+    }
+
+    @Override
+    protected void setUpView() {
+        initEvent();
     }
 
     @Override

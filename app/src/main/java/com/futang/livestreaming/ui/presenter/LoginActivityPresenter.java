@@ -1,5 +1,7 @@
 package com.futang.livestreaming.ui.presenter;
 
+import android.text.TextUtils;
+
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.app.component.AppProductionComponent;
 import com.futang.livestreaming.app.module.UserModule;
@@ -25,6 +27,7 @@ public class LoginActivityPresenter {
     private ILoginView mILoginView;
     private LiveManager mLiveManager;
     private final AppProductionComponent mAppProductionComponent;
+    private UserEntity.BodyBean mUser;
 
     public LoginActivityPresenter(ILoginView iLoginView) {
         this.mILoginView = iLoginView;
@@ -56,6 +59,7 @@ public class LoginActivityPresenter {
                         if (!"0".equals(userEntity.getCode())) {
                             return null;
                         }
+                        mUser = userEntity.getBody();
                         return factory.create(userEntity);
                     }
                 })
@@ -65,7 +69,11 @@ public class LoginActivityPresenter {
                     public void onNext(UserModule userModule) {
                         if (userModule != null) {
                             LiveApplication.get((LoginActivity) mILoginView).createUserComponent(userModule);
-                            mILoginView.toMainActivity();
+                            if(mUser != null && !TextUtils.isEmpty(mUser.getLoginId())){
+                                mILoginView.toMainActivity();
+                            }else {
+                                mILoginView.toEditUserInfo();
+                            }
                         }
                     }
 
