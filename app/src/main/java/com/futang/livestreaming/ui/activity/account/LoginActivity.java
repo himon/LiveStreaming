@@ -79,7 +79,7 @@ public class LoginActivity extends ToolbarActivity implements ILoginView, View.O
 
     @Override
     public void toMainActivity() {
-        Intent intent = new Intent(this, RegisterNextActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

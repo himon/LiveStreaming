@@ -1,6 +1,7 @@
 package com.futang.livestreaming.ui.component;
 
-import com.futang.livestreaming.ui.Scope.ActivityScope;
+import com.futang.livestreaming.ui.module.SquareFragmentModule;
+import com.futang.livestreaming.ui.scope.ActivityScope;
 import com.futang.livestreaming.ui.activity.MainActivity;
 import com.futang.livestreaming.ui.module.MainActivityModule;
 
@@ -16,4 +17,6 @@ import dagger.Subcomponent;
 public interface MainActivityComponent {
 
     MainActivity inject(MainActivity mainActivity);
+
+    SquareFragmentComponent plus(SquareFragmentModule module);
 }

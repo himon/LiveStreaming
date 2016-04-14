@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futang.livestreaming.R;
@@ -17,6 +18,7 @@ public abstract class ToolbarActivity extends BaseActivity implements Toolbar.On
 
     protected Toolbar toolbar;
     protected TextView toolbar_title;
+    protected ImageView toolbar_icon;
 
     public static final int MODE_BACK = 0;
     public static final int MODE_DRAWER = 1;
@@ -51,6 +53,7 @@ public abstract class ToolbarActivity extends BaseActivity implements Toolbar.On
             toolbar = (Toolbar) findViewById(R.id.toolbar);
             toolbar.setTitle("");
             toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+            toolbar_icon = (ImageView) findViewById(R.id.toolbar_icon);
 
             if (mode == MODE_BACK) {
                 toolbar.setNavigationIcon(R.drawable.img_back_icon);

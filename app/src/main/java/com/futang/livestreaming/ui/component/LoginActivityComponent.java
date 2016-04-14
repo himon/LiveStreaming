@@ -1,6 +1,6 @@
 package com.futang.livestreaming.ui.component;
 
-import com.futang.livestreaming.ui.Scope.ActivityScope;
+import com.futang.livestreaming.ui.scope.ActivityScope;
 import com.futang.livestreaming.ui.activity.account.LoginActivity;
 import com.futang.livestreaming.ui.module.LoginActivityModule;
 

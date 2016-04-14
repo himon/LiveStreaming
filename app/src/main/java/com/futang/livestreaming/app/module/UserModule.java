@@ -1,6 +1,6 @@
 package com.futang.livestreaming.app.module;
 
-import com.futang.livestreaming.app.Scope.UserScope;
+import com.futang.livestreaming.app.scope.UserScope;
 import com.futang.livestreaming.data.RepositoriesManager;
 import com.futang.livestreaming.data.api.LiveApi;
 import com.futang.livestreaming.data.entity.UserEntity;

@@ -1,8 +1,10 @@
 package com.futang.livestreaming.ui.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ActionMenuView;
 
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.app.component.AppProductionComponent;

@@ -1,4 +1,4 @@
-package com.futang.livestreaming.app.Scope;
+package com.futang.livestreaming.app.scope;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

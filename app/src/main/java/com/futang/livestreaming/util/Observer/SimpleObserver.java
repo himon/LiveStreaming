@@ -1,6 +1,5 @@
-package com.futang.livestreaming.util.Observer;
+package com.futang.livestreaming.util.observer;
 
-import rx.Observable;
 import rx.Observer;
 
 /**

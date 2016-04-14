@@ -1,9 +1,13 @@
 package com.futang.livestreaming.data;
 
 import com.futang.livestreaming.data.api.LiveApi;
+import com.futang.livestreaming.data.entity.CreateRoomEntity;
+import com.futang.livestreaming.data.entity.RoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
 import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
+import com.futang.livestreaming.util.callback.CreateRoomCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
 import java.io.File;
 import java.util.HashMap;
@@ -60,6 +64,35 @@ public class RepositoriesManager {
         RequestBody loginIdBody = RequestBody.create(MediaType.parse("multipart/form-data"), loginId);
 
         return mLiveApi.editUserInfo(body, userNameBody, sexBody, loginIdBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void startLive(File file, String roomId, String liveType, String liveName, String isCompany, CreateRoomCallback callback) {
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", mUser.getBody().getId());
+        params.put("roomId", roomId);
+        params.put("liveType", liveType);
+        params.put("liveName", liveName);
+        params.put("isCompany", isCompany);
+        params.put("token", mUser.getBody().getToken());
+
+        String url = "http://112.74.21.82/App_API.ashx?action=UserLive";
+
+        if (file != null) {
+            OkHttpUtils.post()//
+                    .addFile("picture", "image.png", file)//
+                    .url(url)
+                    .params(params)//
+                    .build()//
+                    .execute(callback);
+        } else {
+            OkHttpUtils.post().url(url).params(params).build().execute(callback);
+        }
+    }
+
+    public Observable<RoomEntity> getRoomList(String liveType, String isCompany, String page) {
+        return mLiveApi.getRoomList(liveType, isCompany, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

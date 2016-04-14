@@ -1,5 +1,7 @@
 package com.futang.livestreaming.data.api;
 
+import com.futang.livestreaming.data.entity.CreateRoomEntity;
+import com.futang.livestreaming.data.entity.RoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
 
 import okhttp3.MultipartBody;
@@ -37,6 +39,10 @@ public interface LiveApi {
     @Multipart
     @POST("App_API.ashx?action=ModefUser")
     Observable<UserEntity> editUserInfo(@Part("picture") MultipartBody.Part file, @Part("userName") RequestBody userName, @Part("sex") RequestBody sex, @Part("loginId") RequestBody loginId);
+
+    @FormUrlEncoded
+    @POST("App_API.ashx?action=OnlineList")
+    Observable<RoomEntity> getRoomList(@Field("liveType") String liveType, @Field("isCompany") String isCompany, @Field("page") String page);
 }
 
 

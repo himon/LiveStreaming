@@ -1,29 +1,12 @@
 package com.futang.livestreaming.ui.presenter;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
 import com.futang.livestreaming.data.RepositoriesManager;
 import com.futang.livestreaming.data.entity.UserEntity;
-import com.futang.livestreaming.ui.activity.MainActivity;
 import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
 import com.futang.livestreaming.ui.view.IRegisterNextView;
-import com.futang.livestreaming.util.Observer.SimpleObserver;
+import com.futang.livestreaming.util.observer.SimpleObserver;
 
 import java.io.File;
-
-import cn.finalteam.toolsfinal.io.FileUtils;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**

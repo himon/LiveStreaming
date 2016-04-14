@@ -1,5 +1,6 @@
 package com.futang.livestreaming.ui.activity.account;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,6 +80,7 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
     private void initEvent() {
         mBtnNext.setOnClickListener(this);
         mLLUserIcon.setOnClickListener(this);
+        mIvUserIcon.setOnClickListener(this);
     }
 
     @Override
@@ -109,6 +111,9 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
             case R.id.ll_user_icon:
                 galleryInit();
                 break;
+            case R.id.iv_user_icon:
+                galleryInit();
+                break;
             case R.id.btn_next:
                 mPresenter.nextStep(mFile, mEtNickName.getText().toString(), mEtSex.getText().toString(), mEtID.getText().toString(), new MyStringCallback());
                 //mPresenter.nextStep(mFile, mEtNickName.getText().toString(), mEtSex.getText().toString(), mEtID.getText().toString());
@@ -130,6 +135,12 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
         //裁剪宽高
         //functionConfigBuilder.setCropWidth(width);
         //functionConfigBuilder.setCropHeight(height);
+        functionConfigBuilder.setEnableCrop(true); //裁剪
+        functionConfigBuilder.setCropSquare(true);//裁剪成正方形
+        functionConfigBuilder.setEnableCamera(true);//显示相机
+        functionConfigBuilder.setEnableEdit(true);//图片可编辑
+        functionConfigBuilder.setEnableRotate(true);//旋转
+        functionConfigBuilder.setEnablePreview(true); //启动预览
         //强制裁剪
         functionConfigBuilder.setForceCrop(true);
         //强制裁剪后可编辑
@@ -195,6 +206,11 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
         }
     };
 
+    private void toMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public class MyStringCallback extends UserCallback {
         @Override
         public void onBefore(Request request) {
@@ -216,6 +232,7 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
         @Override
         public void onResponse(UserEntity response) {
             UserEntity.BodyBean user = response.getBody();
+            toMain();
         }
 
         @Override

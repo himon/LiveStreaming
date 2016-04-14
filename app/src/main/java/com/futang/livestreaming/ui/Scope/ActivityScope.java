@@ -1,4 +1,4 @@
-package com.futang.livestreaming.ui.Scope;
+package com.futang.livestreaming.ui.scope;
 
 import javax.inject.Scope;
 

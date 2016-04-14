@@ -1,8 +1,7 @@
 package com.futang.livestreaming.ui.module;
 
 import com.futang.livestreaming.data.RepositoriesManager;
-import com.futang.livestreaming.ui.Scope.ActivityScope;
-import com.futang.livestreaming.ui.activity.MainActivity;
+import com.futang.livestreaming.ui.scope.ActivityScope;
 import com.futang.livestreaming.ui.presenter.MainActivityPresenter;
 import com.futang.livestreaming.ui.view.IMainView;
 

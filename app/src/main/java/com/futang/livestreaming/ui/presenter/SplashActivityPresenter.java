@@ -5,11 +5,9 @@ import com.futang.livestreaming.app.component.AppProductionComponent;
 import com.futang.livestreaming.app.module.UserModule;
 import com.futang.livestreaming.data.LiveManager;
 import com.futang.livestreaming.data.entity.UserEntity;
-import com.futang.livestreaming.ui.activity.account.LoginActivity;
-import com.futang.livestreaming.ui.activity.account.RegisterActivity;
 import com.futang.livestreaming.ui.activity.account.SplashActivity;
 import com.futang.livestreaming.ui.view.ISplashView;
-import com.futang.livestreaming.util.Observer.SimpleObserver;
+import com.futang.livestreaming.util.observer.SimpleObserver;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 

@@ -12,6 +12,10 @@ public class MainActivityPresenter {
     private IMainView mIMainView;
     private RepositoriesManager mRepositoriesManager;
 
+    public RepositoriesManager getmRepositoriesManager() {
+        return mRepositoriesManager;
+    }
+
     public MainActivityPresenter(IMainView iMainView, RepositoriesManager repositoriesManager) {
         this.mIMainView = iMainView;
         this.mRepositoriesManager = repositoriesManager;

@@ -1,10 +1,7 @@
 package com.futang.livestreaming.ui.component;
 
-import com.futang.livestreaming.R;
-import com.futang.livestreaming.ui.Scope.ActivityScope;
-import com.futang.livestreaming.ui.activity.account.RegisterActivity;
+import com.futang.livestreaming.ui.scope.ActivityScope;
 import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
-import com.futang.livestreaming.ui.module.RegisterActivityModule;
 import com.futang.livestreaming.ui.module.RegisterNextActivityModule;
 
 import dagger.Subcomponent;
