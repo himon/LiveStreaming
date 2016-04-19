@@ -27,6 +27,7 @@ import com.futang.livestreaming.ui.view.IRegisterNextView;
 import com.futang.livestreaming.util.callback.UserCallback;
 import com.futang.livestreaming.util.loader.GlideImageLoader;
 import com.futang.livestreaming.util.loader.GlidePauseOnScrollListener;
+import com.futang.livestreaming.widgets.CircleTransform;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
@@ -195,6 +196,7 @@ public class RegisterNextActivity extends ToolbarActivity implements IRegisterNe
                 mIvUserIcon.setVisibility(View.VISIBLE);
                 Glide.with(mIvUserIcon.getContext())
                         .load(photoInfo.getPhotoPath())
+                        .transform(new CircleTransform(RegisterNextActivity.this))
                         .into(mIvUserIcon);
                 mFile = new File(photoInfo.getPhotoPath());
             }

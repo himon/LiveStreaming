@@ -3,13 +3,13 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.futang.livestreaming"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
@@ -41,12 +41,17 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     //Android
+
     //Dagger 2
     apt 'com.google.dagger:dagger-compiler:2.1'
     //ReactiveX
+
     //Retrofit
+
     //Okhttp
+
     //Others
+
     //日志记录函数库
     compile files('libs/MobCommons-2016.0406.1915.jar')
     compile files('libs/ShareSDK-Core-2.7.1.jar')
@@ -56,10 +61,11 @@ dependencies {
     compile files('libs/MobTools-2016.0401.1602.jar')
     compile files('libs/ve.jar')
     compile files('libs/zegoavkit.jar')
-    compile 'com.android.support:design:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:support-v4:22.2.1'
+    compile files('libs/classes.jar')
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
     compile 'com.google.dagger:dagger:2.1'
     compile 'com.google.dagger:dagger-producers:2.1'
     compile 'io.reactivex:rxandroid:1.1.0'
@@ -70,11 +76,14 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.google.guava:guava:18.0'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'com.zhy:okhttputils:2.3.9'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile 'com.baoyz.actionsheet:library:1.1.4'
+    compile 'com.wang.avi:library:1.0.5'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

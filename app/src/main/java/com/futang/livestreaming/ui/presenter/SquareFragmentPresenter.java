@@ -18,18 +18,4 @@ public class SquareFragmentPresenter {
         this.mISquareFragmentView = iSquareFragmentView;
         this.mRepositoriesManager = repositoriesManager;
     }
-
-    public void getRoomList(String liveType, String isCompany, int page) {
-        mRepositoriesManager.getRoomList(liveType, isCompany, page + "").subscribe(new SimpleObserver<RoomEntity>(){
-            @Override
-            public void onNext(RoomEntity room) {
-                mISquareFragmentView.setRoomDate(room);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        });
-    }
 }

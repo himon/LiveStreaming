@@ -14,8 +14,9 @@ import com.bumptech.glide.Glide;
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.data.C;
-import com.futang.livestreaming.data.api.ZegoApi;
-import com.futang.livestreaming.ui.activity.live.LivePublishActivity;
+import com.futang.livestreaming.data.entity.UserEntity;
+import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
+import com.futang.livestreaming.ui.activity.live.ChatActivity;
 import com.futang.livestreaming.ui.base.BaseActivity;
 import com.futang.livestreaming.ui.base.ToolbarActivity;
 import com.futang.livestreaming.ui.component.MainActivityComponent;
@@ -26,6 +27,7 @@ import com.futang.livestreaming.ui.fragment.SquareFragment;
 import com.futang.livestreaming.ui.module.MainActivityModule;
 import com.futang.livestreaming.ui.presenter.MainActivityPresenter;
 import com.futang.livestreaming.ui.view.IMainView;
+import com.futang.livestreaming.widgets.CircleTransform;
 
 import javax.inject.Inject;
 
@@ -58,6 +60,8 @@ public class MainActivity extends ToolbarActivity implements IMainView, View.OnC
     private ShopFragment mShopFragment;
     private MineFragment mMineFragment;
     private MainActivityComponent mMainActivityComponent;
+    private UserEntity.BodyBean mUser;
+    private int mChannelId;
 
     public MainActivityComponent getmMainActivityComponent() {
         return mMainActivityComponent;
@@ -93,8 +97,10 @@ public class MainActivity extends ToolbarActivity implements IMainView, View.OnC
                 .centerCrop()
                 .placeholder(android.R.color.white)
                 .crossFade()
+                .transform(new CircleTransform(this))
                 .into(toolbar_icon);
         toolbar_icon.setVisibility(View.VISIBLE);
+        toolbar_icon.setOnClickListener(this);
     }
 
     private void initEvent() {
@@ -103,27 +109,24 @@ public class MainActivity extends ToolbarActivity implements IMainView, View.OnC
 
     @Override
     protected void setUpData() {
-
+        mUser = mPresenter.getmRepositoriesManager().getmUser().getBody();
+        mChannelId = Integer.valueOf(mUser.getId()) + 1;
     }
 
     private void setupAVKit() {
-        ZegoApi.setupAVKit(getApplicationContext());
+        //ZegoApi.setupAVKit(getApplicationContext());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_live:
-                toLive();
+                ChatActivity.actionStart(MainActivity.this, mChannelId, 0);
+                break;
+            case R.id.toolbar_icon:
+
                 break;
         }
-    }
-
-    private void toLive() {
-        Intent intent = new Intent(this, LivePublishActivity.class);
-        intent.putExtra(C.IntentKey.INTENT_KEY_IS_PLAY, false);
-        intent.putExtra(C.IntentKey.INTENT_KEY_PUBLISH_TITLE, "xxxx");
-        startActivity(intent);
     }
 
     @Override

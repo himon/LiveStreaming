@@ -10,6 +10,7 @@ import com.futang.livestreaming.app.component.DaggerAppProductionComponent;
 import com.futang.livestreaming.app.component.UserComponent;
 import com.futang.livestreaming.app.module.AppModule;
 import com.futang.livestreaming.app.module.UserModule;
+import com.futang.livestreaming.data.api.ZegoApiManager;
 import com.futang.livestreaming.util.loader.GlideImageLoader;
 import com.futang.livestreaming.util.loader.GlidePauseOnScrollListener;
 
@@ -50,6 +51,9 @@ public class LiveApplication extends Application {
         super.onCreate();
         initAppComponent();
         initGalleryFinal();
+
+        // 初始化Zego sdk
+        ZegoApiManager.getInstance().initSDK(this);
     }
 
     private void initGalleryFinal() {

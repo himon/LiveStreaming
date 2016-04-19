@@ -1,8 +1,12 @@
 package com.futang.livestreaming.data;
 
+import android.media.browse.MediaBrowser;
+
 import com.futang.livestreaming.data.api.LiveApi;
 import com.futang.livestreaming.data.entity.CreateRoomEntity;
+import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.RoomEntity;
+import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
 import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
 import com.futang.livestreaming.util.callback.CreateRoomCallback;
@@ -93,6 +97,18 @@ public class RepositoriesManager {
 
     public Observable<RoomEntity> getRoomList(String liveType, String isCompany, String page) {
         return mLiveApi.getRoomList(liveType, isCompany, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<StopRoomEntity> stopLive(String liveId, String isCompany) {
+        return mLiveApi.stopLive(liveId, isCompany, mUser.getBody().getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<GiftEntity> getGift(String isCompany) {
+        return mLiveApi.getGift(isCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

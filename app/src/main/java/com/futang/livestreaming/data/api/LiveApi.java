@@ -1,7 +1,9 @@
 package com.futang.livestreaming.data.api;
 
 import com.futang.livestreaming.data.entity.CreateRoomEntity;
+import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.RoomEntity;
+import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
 
 import okhttp3.MultipartBody;
@@ -29,7 +31,7 @@ public interface LiveApi {
 
     @FormUrlEncoded
     @POST("App_API.ashx?action=QQLogin")
-    Observable<UserEntity> login(@Field("qq") String qq, @Field("userName") String userName, @Field("sex") String sex, @Field("ico") String ico, @Field("loginType") String loginType, @Field("isCompany") String isCompany);
+    Observable<UserEntity> login(@Field("qq") String qq, @Field("userName") String userName, @Field("sex") String sex, @Field("picture") String ico, @Field("loginType") String loginType, @Field("isCompany") String isCompany);
 
     @FormUrlEncoded
     @POST("App_API.ashx?action=LoginCheck")
@@ -43,6 +45,14 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST("App_API.ashx?action=OnlineList")
     Observable<RoomEntity> getRoomList(@Field("liveType") String liveType, @Field("isCompany") String isCompany, @Field("page") String page);
+
+    @FormUrlEncoded
+    @POST("App_API.ashx?action=EndLive")
+    Observable<StopRoomEntity> stopLive(@Field("liveId") String liveId, @Field("isCompany") String isCompany, @Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("App_API.ashx?action=GigtList")
+    Observable<GiftEntity> getGift(@Field("isCompany") String isCompany);
 }
 
 

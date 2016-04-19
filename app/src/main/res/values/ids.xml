@@ -19,7 +19,7 @@
     <item name="adapter_item_tag_key" type="id"/>
 
     <!--pull-->
-    <item name="swipeRefreshLayout" type="id" />
-    <item name="recyclerView" type="id" />
-    <item name="pullRecycler" type="id" />
+    <!--<item name="swipeRefreshLayout" type="id" />-->
+    <!--<item name="recyclerView" type="id" />-->
+    <!--<item name="pullRecycler" type="id" />-->
 </resources>

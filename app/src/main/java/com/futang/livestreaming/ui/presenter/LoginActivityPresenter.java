@@ -66,7 +66,7 @@ public class LoginActivityPresenter {
                     public void onNext(UserModule userModule) {
                         if (userModule != null) {
                             LiveApplication.get((LoginActivity) mILoginView).createUserComponent(userModule);
-                            if(mUser != null && !TextUtils.isEmpty(mUser.getUserName())){
+                            if(!TextUtils.isEmpty(mUser.getUserName())){
                                 mILoginView.toMainActivity();
                             }else {
                                 mILoginView.toEditUserInfo();

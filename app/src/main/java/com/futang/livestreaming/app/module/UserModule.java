@@ -17,6 +17,10 @@ public class UserModule {
     private UserEntity mUser;
     private LiveApi mLiveApi;
 
+    public UserEntity getmUser() {
+        return mUser;
+    }
+
     public UserModule(UserEntity user, LiveApi liveApi) {
         this.mUser = user;
         this.mLiveApi = liveApi;
