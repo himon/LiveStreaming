@@ -16,8 +16,7 @@ import com.futang.livestreaming.R;
 import com.futang.livestreaming.data.C;
 import com.futang.livestreaming.data.entity.RoomEntity;
 import com.futang.livestreaming.ui.activity.MainActivity;
-import com.futang.livestreaming.ui.activity.live.ChatActivity;
-import com.futang.livestreaming.ui.activity.live.LivePlayActivity;
+import com.futang.livestreaming.ui.activity.live.LiveRoomActivity;
 import com.futang.livestreaming.ui.base.BaseListFragment;
 import com.futang.livestreaming.ui.module.SquareFragmentModule;
 import com.futang.livestreaming.ui.module.SquareHotFragmentModule;
@@ -147,8 +146,11 @@ public class SquareHotFragment extends BaseListFragment<RoomEntity.BodyBean> imp
         public void onItemClick(View view, int position) {
             RoomEntity.BodyBean bean = mDataList.get(position);
 
-            ToastUtils.showToast(getActivity(), bean.getRoomId());
-            ChatActivity.actionStart(getActivity(), Integer.valueOf(bean.getRoomId()), 1);
+            Intent intent2 = new Intent(getActivity(), LiveRoomActivity.class);
+            intent2.putExtra(C.IntentKey.INTENT_KEY_ZEGO_TOKEN, 0);
+            intent2.putExtra(C.IntentKey.INTENT_KEY_ZEGO_ID, Integer.valueOf(bean.getRoomId()));
+            intent2.putExtra(C.IntentKey.INTENT_KEY_IS_PLAY, true);
+            startActivity(intent2);
         }
 
     }

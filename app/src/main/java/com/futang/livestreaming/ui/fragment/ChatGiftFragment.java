@@ -84,6 +84,8 @@ public class ChatGiftFragment extends BaseFragment {
                     .placeholder(android.R.color.white)
                     .crossFade()
                     .into(holder.iv);
+            holder.mTvName.setText(bodyBean.getGiftName());
+            holder.mTvMoeny.setText(bodyBean.getGiftMoney() + "");
         }
 
         @Override
@@ -94,10 +96,14 @@ public class ChatGiftFragment extends BaseFragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
 
             ImageView iv;
+            TextView mTvName;
+            TextView mTvMoeny;
 
             public MyViewHolder(View view) {
                 super(view);
                 iv = (ImageView) view.findViewById(R.id.imageview);
+                mTvName = (TextView) view.findViewById(R.id.tv_name);
+                mTvMoeny = (TextView) view.findViewById(R.id.tv_money);
             }
         }
     }

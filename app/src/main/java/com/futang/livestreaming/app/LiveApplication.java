@@ -52,8 +52,18 @@ public class LiveApplication extends Application {
         initAppComponent();
         initGalleryFinal();
 
-        // 初始化Zego sdk
-        ZegoApiManager.getInstance().initSDK(this);
+        // 初始化zego sdk
+        initZegoSDK(this);
+    }
+
+    /**
+     * 初始化Zego SDK.
+     *
+     * @param context
+     */
+    private void initZegoSDK(Context context){
+        // 初始化sdk
+        ZegoApiManager.getInstance().initSdk(context);
     }
 
     private void initGalleryFinal() {

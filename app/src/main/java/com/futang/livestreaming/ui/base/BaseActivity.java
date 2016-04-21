@@ -10,7 +10,7 @@ import android.view.View;
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.app.component.AppProductionComponent;
-import com.wang.avi.AVLoadingIndicatorView;
+import com.futang.livestreaming.widgets.CustomerProgress;
 
 /**
  * Created by Administrator on 2016/4/7.
@@ -18,7 +18,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 public abstract class BaseActivity extends AppCompatActivity {
 
 
-    private AVLoadingIndicatorView mProgress;
+    private CustomerProgress mCustomerProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +39,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public AppProductionComponent getAppProductionComponent() {
         return LiveApplication.get(this).getAppProductionComponent();
+    }
+
+    public void waittingDialog() {
+        setTheme(android.R.style.Theme);
+        mCustomerProgress = new CustomerProgress(this, "进行中,请稍后");
+        mCustomerProgress.show();
+    }
+
+    public void stopCusDialog() {
+        if (mCustomerProgress != null) {
+            mCustomerProgress.dismiss();
+        }
     }
 }

@@ -15,13 +15,21 @@
     <color name="font_text_black_register">#2f2f2f</color>
     <color name="font_text_gray_register_button">#cfcfcf</color>
 
-
-
+    <color name="font_text_dialog_gray">#D4D4D4</color>
     <color name="font_text_gold_chat">#fe9c33</color>
 
+    <!--商品-->
+    <color name="font_text_goods_address_gray">#212726</color>
+    <color name="goods_address_gray_bg">#f7f7f7</color>
+    <color name="font_text_goods_red">#ff495e</color>
+    <color name="font_text_goods_id_gray">#888888</color>
+    <color name="font_text_goods_num_gray">#cccccc</color>
+    <color name="font_text_goods_gray">#333333</color>
+    <color name="font_text_goods_hint_gray">#a2a2a2</color>
+    <color name="goods_line_gray">#eeeeee</color>
 
-
-
+    <!--直播间-->
+    <color name="font_text_chat_edittext_hint">#959596</color>
 
     <!--                                    -->
 

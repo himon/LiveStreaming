@@ -1,7 +1,6 @@
 package com.futang.livestreaming.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -15,14 +14,12 @@ import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.data.C;
 import com.futang.livestreaming.data.entity.UserEntity;
-import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
-import com.futang.livestreaming.ui.activity.live.ChatActivity;
-import com.futang.livestreaming.ui.base.BaseActivity;
+import com.futang.livestreaming.ui.activity.live.LiveRoomActivity;
 import com.futang.livestreaming.ui.base.ToolbarActivity;
 import com.futang.livestreaming.ui.component.MainActivityComponent;
-import com.futang.livestreaming.ui.fragment.InterestFragment;
-import com.futang.livestreaming.ui.fragment.MineFragment;
-import com.futang.livestreaming.ui.fragment.ShopFragment;
+import com.futang.livestreaming.ui.fragment.tab.InterestFragment;
+import com.futang.livestreaming.ui.fragment.tab.MineFragment;
+import com.futang.livestreaming.ui.fragment.tab.ShopFragment;
 import com.futang.livestreaming.ui.fragment.SquareFragment;
 import com.futang.livestreaming.ui.module.MainActivityModule;
 import com.futang.livestreaming.ui.presenter.MainActivityPresenter;
@@ -121,10 +118,12 @@ public class MainActivity extends ToolbarActivity implements IMainView, View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_live:
-                ChatActivity.actionStart(MainActivity.this, mChannelId, 0);
+                //ChatActivity.actionStart(MainActivity.this, mChannelId, 0);
+                Intent intent = new Intent(this, LiveRoomActivity.class);
+                intent.putExtra(C.IntentKey.INTENT_KEY_IS_PLAY, false);
+                startActivity(intent);
                 break;
             case R.id.toolbar_icon:
-
                 break;
         }
     }

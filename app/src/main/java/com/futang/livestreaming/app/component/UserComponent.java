@@ -2,10 +2,10 @@ package com.futang.livestreaming.app.component;
 
 import com.futang.livestreaming.app.scope.UserScope;
 import com.futang.livestreaming.app.module.UserModule;
-import com.futang.livestreaming.ui.component.ChatActivityComponent;
+import com.futang.livestreaming.ui.component.LiveRoomActivityComponent;
 import com.futang.livestreaming.ui.component.MainActivityComponent;
 import com.futang.livestreaming.ui.component.RegisterNextActivityComponent;
-import com.futang.livestreaming.ui.module.ChatActivityModule;
+import com.futang.livestreaming.ui.module.LiveRoomActivityModule;
 import com.futang.livestreaming.ui.module.MainActivityModule;
 import com.futang.livestreaming.ui.module.RegisterNextActivityModule;
 
@@ -26,5 +26,5 @@ public interface UserComponent {
 
         RegisterNextActivityComponent plus(RegisterNextActivityModule module);
 
-        ChatActivityComponent plus(ChatActivityModule module);
+        LiveRoomActivityComponent plus(LiveRoomActivityModule module);
 }

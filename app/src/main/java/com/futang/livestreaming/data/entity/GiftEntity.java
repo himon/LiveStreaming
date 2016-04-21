@@ -3,6 +3,7 @@ package com.futang.livestreaming.data.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +20,13 @@ public class GiftEntity extends BaseEntity{
      * isCompany : 0
      */
 
-    private List<BodyBean> body;
+    private ArrayList<BodyBean> body;
 
-    public List<BodyBean> getBody() {
+    public ArrayList<BodyBean> getBody() {
         return body;
     }
 
-    public void setBody(List<BodyBean> body) {
+    public void setBody(ArrayList<BodyBean> body) {
         this.body = body;
     }
 

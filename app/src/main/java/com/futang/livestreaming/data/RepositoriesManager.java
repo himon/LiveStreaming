@@ -72,7 +72,7 @@ public class RepositoriesManager {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public void startLive(File file, String roomId, String liveType, String liveName, String isCompany, CreateRoomCallback callback) {
+    public void startLive(File file, String roomId, String liveType, String liveName, String isCompany, String rtmp, String hls, CreateRoomCallback callback) {
         Map<String, String> params = new HashMap<>();
         params.put("userId", mUser.getBody().getId());
         params.put("roomId", roomId);
@@ -80,6 +80,8 @@ public class RepositoriesManager {
         params.put("liveName", liveName);
         params.put("isCompany", isCompany);
         params.put("token", mUser.getBody().getToken());
+        params.put("rtmp", rtmp);
+        params.put("hls", hls);
 
         String url = "http://112.74.21.82/App_API.ashx?action=UserLive";
 
