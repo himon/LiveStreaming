@@ -11,9 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.futang.livestreaming.R;
+import com.futang.livestreaming.data.event.LiveRoomEvent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -51,9 +53,12 @@ public class CreateLiveRoomFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_live:
-
+                LiveRoomEvent liveRoomEvent = new LiveRoomEvent("start_publish");
+                liveRoomEvent.setMsg(mEtTitle.getText().toString().trim());
+                EventBus.getDefault().post(liveRoomEvent);
                 break;
             case R.id.iv_close:
+                EventBus.getDefault().post(new LiveRoomEvent("close"));
                 break;
         }
     }

@@ -85,4 +85,5 @@ dependencies {
     compile 'com.baoyz.actionsheet:library:1.1.4'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.pnikosis:materialish-progress:1.7'
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

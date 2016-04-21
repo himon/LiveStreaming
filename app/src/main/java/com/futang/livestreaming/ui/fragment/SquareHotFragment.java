@@ -133,7 +133,7 @@ public class SquareHotFragment extends BaseListFragment<RoomEntity.BodyBean> imp
                     .into(mIvUserIcon);
 
             Glide.with(mIvRoomCover.getContext())
-                    .load(room.getPicture())
+                    .load(room.getUserPicture())
                     .centerCrop()
                     .placeholder(android.R.color.white)
                     .crossFade()

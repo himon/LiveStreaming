@@ -21,17 +21,19 @@ import android.widget.TextView;
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.data.C;
 import com.futang.livestreaming.data.entity.GiftEntity;
+import com.futang.livestreaming.data.event.LiveRoomEvent;
 import com.futang.livestreaming.ui.fragment.ChatGiftFragment;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by lc on 16/4/19.
  */
-public class ChatGiftDialogFragment extends DialogFragment {
+public class ChatGiftDialogFragment extends DialogFragment implements View.OnClickListener {
 
     ViewPager mViewPager;
     TextView mTvMoney;
@@ -58,6 +60,13 @@ public class ChatGiftDialogFragment extends DialogFragment {
         mTvMoney = (TextView) mView.findViewById(R.id.tv_money);
         mTvRecharge = (TextView) mView.findViewById(R.id.tv_recharge);
         mBtnSend = (Button) mView.findViewById(R.id.btn_send);
+
+        initEvent();
+    }
+
+    private void initEvent() {
+        mBtnSend.setOnClickListener(this);
+        mTvRecharge.setOnClickListener(this);
     }
 
     private void initData() {
@@ -116,5 +125,16 @@ public class ChatGiftDialogFragment extends DialogFragment {
         //设置Dialog背景色透明
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_send:
+                EventBus.getDefault().post(new LiveRoomEvent("send_gift"));
+                break;
+            case R.id.tv_recharge:
+                break;
+        }
     }
 }

@@ -18,7 +18,7 @@
             android:layout_height="match_parent"/>
     </RelativeLayout>
 
-    <fragment
+    <FrameLayout
         android:id="@+id/frame_creat_room"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -26,7 +26,8 @@
     <RelativeLayout
         android:id="@+id/rl_controls"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <LinearLayout
             android:id="@+id/layoutToolbar"
@@ -38,34 +39,6 @@
             android:orientation="horizontal"
             android:visibility="gone"
             android:weightSum="1">
-
-            <CheckBox
-                android:id="@+id/chkFlash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Flash"/>
-
-            <CheckBox
-                android:id="@+id/chkFrontCam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Front Camera"/>
-
-            <CheckBox
-                android:id="@+id/chkEnableMic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:text="Mic"/>
-
-            <Button
-                android:id="@+id/btnJoinPublish"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Join"/>
 
             <TextView
                 android:id="@+id/TxtUserCount"
@@ -153,16 +126,79 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_gift_show"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/lv_chat"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="-200dp">
+
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_radius_chat_gift_show_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_send_user"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="4dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="***"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/font_text_size_14"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="***"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/font_text_size_14"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:id="@+id/tv_gift_num"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:text="x1"
+                android:textColor="@color/font_text_gold_chat"
+                android:textSize="@dimen/font_text_size_30"/>
+
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/lv_chat"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginRight="15dp"
-            android:dividerHeight="0dp"
-            android:divider="@null"
+            android:layout_height="180dp"
             android:layout_above="@+id/rl_menu"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="60dp">
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="15dp"
+            android:divider="@null"
+            android:dividerHeight="0dp">
 
         </ListView>
 
@@ -239,6 +275,16 @@
                 android:textColor="@android:color/white"/>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_big_anim"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="-300dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
     </RelativeLayout>
 
 </FrameLayout>

@@ -1,11 +1,14 @@
 package com.futang.livestreaming.ui.activity.live;
 
 import android.Manifest;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +17,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.text.TextUtilsCompat;
 import android.text.SpannableStringBuilder;
@@ -26,6 +31,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,6 +56,7 @@ import com.futang.livestreaming.data.entity.CreateRoomEntity;
 import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
+import com.futang.livestreaming.data.event.LiveRoomEvent;
 import com.futang.livestreaming.data.module.ChatMessage;
 import com.futang.livestreaming.ui.activity.MainActivity;
 import com.futang.livestreaming.ui.adapter.CommonAdapter;
@@ -59,8 +69,8 @@ import com.futang.livestreaming.ui.view.ILiveRoomView;
 import com.futang.livestreaming.util.ToastUtils;
 import com.futang.livestreaming.widgets.dialog.ChatGiftDialogFragment;
 import com.futang.livestreaming.widgets.popup.ChatShapePopupWindow;
+import com.github.lazylibrary.util.DensityUtil;
 import com.github.lazylibrary.util.InputMethodUtils;
-import com.google.common.eventbus.EventBus;
 import com.zego.zegoavkit.ZegoAVApi;
 import com.zego.zegoavkit.ZegoAVChatRoomCallback;
 import com.zego.zegoavkit.ZegoAVKitCommon;
@@ -81,6 +91,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 
 public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, View.OnClickListener, View.OnLayoutChangeListener {
@@ -95,6 +106,8 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
     ImageView mIvShare;
     @Bind(R.id.iv_chat)
     ImageView mIvChat;
+    @Bind(R.id.iv_close_live)
+    ImageView mIvCloseLive;
     @Bind(R.id.rl_menu)
     RelativeLayout mRlMenu;
     @Bind(R.id.ll_input)
@@ -105,6 +118,12 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
     Button mBtnSendMsg;
     @Bind(R.id.lv_chat)
     ListView mListView;
+    @Bind(R.id.iv_big_anim)
+    ImageView mIvBigAnim;
+    @Bind(R.id.rl_gift_show)
+    RelativeLayout mRlGiftShow;
+    @Bind(R.id.tv_gift_num)
+    TextView mTvGiftNum;
 
     private CommonAdapter mAdapter;
     private List<ChatMessage> mList;
@@ -132,7 +151,8 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
     //软件盘弹起后所占高度阀值
     private int keyHeight = 0;
 
-    private CreateLiveRoomFragment mFragment;
+    private FragmentManager mFragmentManager;
+    private CreateLiveRoomFragment mCreateLiveRoomFragment;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -148,6 +168,10 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
             }
         }
     };
+    /**
+     * 视频rmtp
+     */
+    private String mPlayURL;
 
     @Override
     protected void setupActivityComponent() {
@@ -159,7 +183,7 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
         setContentView(R.layout.activity_liveroom);
 
         ButterKnife.bind(this);
-
+        EventBus.getDefault().register(this);
 
         mZegoAVApi = ZegoApiManager.getInstance().getZegoAVApi();
         mZegoUser = ZegoApiManager.getInstance().getZegoUser();
@@ -191,12 +215,20 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
 
     @Override
     protected void setUpView() {
+
+        mFragmentManager = getSupportFragmentManager();
+        mCreateLiveRoomFragment = new CreateLiveRoomFragment();
+        FragmentTransaction fragmentTran = mFragmentManager.beginTransaction();
+        fragmentTran.add(R.id.frame_creat_room, mCreateLiveRoomFragment);
+        fragmentTran.show(mCreateLiveRoomFragment);
+        fragmentTran.commitAllowingStateLoss();
+
         mList = new ArrayList<>();
         mAdapter = new CommonAdapter<ChatMessage>(this, mList, R.layout.layout_chat_msg_item) {
             @Override
             public void convert(ViewHolder holder, ChatMessage chatMessage) {
                 SpannableStringBuilder ssb = new SpannableStringBuilder(chatMessage.getName() + " " + chatMessage.getMsg());
-                ssb.setSpan(new ForegroundColorSpan(0xff303F9F), 0, chatMessage.getName().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                ssb.setSpan(new ForegroundColorSpan(0xfe9c33), 0, chatMessage.getName().length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 TextView tv = holder.getView(R.id.tv_msg);
                 tv.setText(ssb);
             }
@@ -260,54 +292,8 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
         if (mZegoId == 0) {
             mZegoId = Integer.valueOf(mUser.getId() + "1");
         }
+        int i = mZegoAVApi.setFrontCam(true);
         mZegoAVApi.getInChatRoom(mZegoUser, zegoToken, mZegoId);
-
-        View view = findViewById(R.id.btnClose);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mIsPublishing) {
-                    stopPublish();
-                }
-            }
-        });
-
-        Button joinButton = (Button) findViewById(R.id.btnJoinPublish);
-        joinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!mIsPublishing) {
-                    startPublish();
-                }
-            }
-        });
-
-        CheckBox cbFlash = (CheckBox) findViewById(R.id.chkFlash);
-        cbFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                addLog("on flash change: " + isChecked);
-                mZegoAVApi.enableTorch(isChecked);
-            }
-        });
-
-        CheckBox cbFrontCam = (CheckBox) findViewById(R.id.chkFrontCam);
-        cbFrontCam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                addLog("on front cam change: " + isChecked);
-                mZegoAVApi.setFrontCam(isChecked);
-            }
-        });
-
-        CheckBox cbEnableMic = (CheckBox) findViewById(R.id.chkEnableMic);
-        cbEnableMic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                addLog("on enable mic change: " + isChecked);
-                mZegoAVApi.enableMic(isChecked);
-            }
-        });
 
         if (mIsPlaying) {
             mZegoAVApi.setRemoteViewMode(ZegoAVKitCommon.ZegoRemoteViewIndex.First, ZegoAVKitCommon.ZegoVideoViewMode.ScaleAspectFill);
@@ -330,7 +316,7 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
                 if (mIsPlaying) {
                     mZegoAVApi.sendBroadcastTextMsgInChatRoom("Hello from Android SDK.");
                 } else {
-                    //startPublish();
+                    startPublish();
                 }
             }
 
@@ -409,11 +395,9 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
 
                 Map<String, Object> publishInfo = mZegoAVApi.getCurrentPublishInfo();
                 Long streamID = (Long) publishInfo.get(ZegoAVApi.kZegoPublishStreamIDKey);
-                String playURL = (String) publishInfo.get(ZegoAVApi.kZegoPublishStreamURLKey);
+                mPlayURL = (String) publishInfo.get(ZegoAVApi.kZegoPublishStreamURLKey);
 //            String streamAlias = (String)publishInfo.get(ZegoAVApi.kZegoPublishStreamAliasKey);
 //            addLog("onPublishStateUpdate: " + streamID.toString() + "\n" + playURL + "\n" + streamAlias);
-
-                mPresenter.startLive(null, mZegoId + "", "0", "sfsdfdsfsdsdsd", "0", playURL, "");
             }
 
             /**
@@ -548,18 +532,15 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
 
                 View lv = remoteView();
                 if (lv != null) {
-
                     mZegoAVApi.setLocalView(lv);
                     mZegoAVApi.startPreview();
-                    mZegoAVApi.setFrontCam(false);
-
-                    CheckBox cbEnableMic = (CheckBox) findViewById(R.id.chkEnableMic);
-                    mZegoAVApi.enableMic(cbEnableMic.isChecked());
-
-                    CheckBox cbEnableFlash = (CheckBox) findViewById(R.id.chkFlash);
-                    mZegoAVApi.enableTorch(cbEnableFlash.isChecked());
+                    if (mIsPlaying) {
+                        mZegoAVApi.enableMic(false);
+                    } else {
+                        mZegoAVApi.enableMic(true);
+                    }
+                    mZegoAVApi.enableTorch(false);
                     mZegoAVApi.startPublishInChatRoom(mPublishTitle);
-
                 }
             }
         });
@@ -604,6 +585,11 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
                 break;
             case R.id.btn_send:
                 sendMsg();
+                break;
+            case R.id.iv_close_live:
+                if (mIsPublishing) {
+                    stopPublish();
+                }
                 break;
         }
     }
@@ -656,5 +642,61 @@ public class LiveRoomActivity extends BaseActivity implements ILiveRoomView, Vie
             mRlMenu.setVisibility(View.VISIBLE);
             mLLInput.setVisibility(View.GONE);
         }
+    }
+
+    public void onEvent(LiveRoomEvent event) {
+        if ("close".equals(event.getType())) {
+            finish();
+        } else if ("start_publish".equals(event.getType())) {
+            mPublishTitle = event.getMsg();
+            if (mCreateLiveRoomFragment != null) {
+                FragmentTransaction fragmentTran = mFragmentManager
+                        .beginTransaction();
+                fragmentTran.remove(mCreateLiveRoomFragment);
+                fragmentTran.commitAllowingStateLoss();
+                mCreateLiveRoomFragment = null;
+            }
+            mRlControls.setVisibility(View.VISIBLE);
+            mPresenter.startLive(null, mZegoId + "", "0", mPublishTitle, "0", mPlayURL, "");
+        } else if ("send_gift".equals(event.getType())) {
+            Point screenSize = DensityUtil.getScreenSize(this);
+            int px = DensityUtil.dip2px(this, 205);
+            //ObjectAnimator.ofFloat(mIvBigAnim, "translationX", screenSize.x + px, 0).setDuration(5000).start();
+
+            if (gift == 1) {
+                ObjectAnimator.ofFloat(mRlGiftShow, "translationX", 0, px).setDuration(500).start();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        numGiftAnim();
+                    }
+                }, 500);
+            } else {
+                numGiftAnim();
+            }
+        }
+    }
+
+    int gift = 1;
+
+    private void numGiftAnim() {
+        mTvGiftNum.setText(gift + "");
+        ObjectAnimator anim1 = ObjectAnimator.ofFloat(mTvGiftNum, "scaleX",
+                1.0f, 2.5f, 1.0f);
+        ObjectAnimator anim2 = ObjectAnimator.ofFloat(mTvGiftNum, "scaleY",
+                1.0f, 2.5f, 1.0f);
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.setDuration(500);
+        animSet.setInterpolator(new LinearInterpolator());
+        //两个动画同时执行
+        animSet.playTogether(anim1, anim2);
+        animSet.start();
+        gift++;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
