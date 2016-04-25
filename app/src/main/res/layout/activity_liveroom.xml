@@ -76,8 +76,8 @@
 
                 <ImageView
                     android:id="@+id/iv_anchor_head_icon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="3dp"
                     android:src="@mipmap/ic_launcher"/>
 
@@ -88,6 +88,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="直播live"
@@ -98,6 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
                         android:text="1.8w 粉丝"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/font_text_size_14"/>
@@ -111,8 +113,8 @@
 
             </LinearLayout>
 
-
-            <TextView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
@@ -121,7 +123,7 @@
                 android:id="@+id/iv_close_live"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginRight="9dp"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/img_close_live"/>
 
         </LinearLayout>
@@ -242,8 +244,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"
-                android:src="@drawable/img_like_on"/>
+                android:layout_marginRight="25dp"/>
 
         </RelativeLayout>
 

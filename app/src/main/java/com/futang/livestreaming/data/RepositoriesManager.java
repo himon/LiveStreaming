@@ -8,6 +8,7 @@ import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.RoomEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
+import com.futang.livestreaming.data.entity.WatcherPicEntity;
 import com.futang.livestreaming.ui.activity.account.RegisterNextActivity;
 import com.futang.livestreaming.util.callback.CreateRoomCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -113,5 +114,12 @@ public class RepositoriesManager {
         return mLiveApi.getGift(isCompany)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<WatcherPicEntity> getWatcherList(String id) {
+        return mLiveApi.getWatcherList(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 }

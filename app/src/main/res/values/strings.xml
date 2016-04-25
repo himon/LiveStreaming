@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LiveStreaming</string>
+    <string name="app_name">云播</string>
 
     <string name="host_url">http://112.74.21.82/</string>
 

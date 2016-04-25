@@ -17,6 +17,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -24,8 +26,10 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RecyclableBufferedInputStream;
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
 import com.futang.livestreaming.data.C;
@@ -45,6 +50,8 @@ import com.futang.livestreaming.data.entity.CreateRoomEntity;
 import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
+import com.futang.livestreaming.data.entity.WatcherPicEntity;
+import com.futang.livestreaming.data.event.ChatGiftEvent;
 import com.futang.livestreaming.data.event.LiveRoomEvent;
 import com.futang.livestreaming.data.module.ChatMessage;
 import com.futang.livestreaming.ui.adapter.CommonAdapter;
@@ -56,6 +63,7 @@ import com.futang.livestreaming.ui.presenter.LiveRoomActivityPresenter;
 import com.futang.livestreaming.ui.view.ILiveRoomView;
 import com.futang.livestreaming.util.ToastUtils;
 import com.futang.livestreaming.widgets.CircleTransform;
+import com.futang.livestreaming.widgets.DividerGridItemDecoration;
 import com.futang.livestreaming.widgets.dialog.ChatGiftDialogFragment;
 import com.futang.livestreaming.widgets.dialog.GiftCountDialogFragment;
 import com.futang.livestreaming.widgets.popup.ChatShapePopupWindow;
@@ -183,9 +191,35 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
     @Bind(R.id.periscope)
     PeriscopeLayout mPeriscopeLayout;
 
+    /**
+     * 主播头像
+     */
+    @Bind(R.id.iv_anchor_head_icon)
+    ImageView mIvAnchorIcon;
+
+    /**
+     * 主播名称
+     */
+    @Bind(R.id.tv_name)
+    TextView mTvName;
+
+    /**
+     * 观看者头像
+     */
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+
+    /**
+     * 观看者id
+     */
+    private List<String> mWatchId = new ArrayList<>();
 
     private CommonAdapter mAdapter;
     private List<ChatMessage> mList;
+    /**
+     * 观看者头像列表
+     */
+    private List<String> mWatchList = new ArrayList<>();
 
     //    zego
     private boolean mIsPlaying = false;
@@ -230,9 +264,21 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
                 case 3:
                     showLike();
                     break;
+                case 4:
+                    addWatch(msg.obj.toString());
+                    break;
             }
         }
     };
+    private WatcherListAdapter mWatcherAdapter;
+
+    private void addWatch(String s) {
+        String id = s.substring(1, s.length());
+        mWatchId.add(id);
+        if (mWatchId.size() < 6) {
+            mPresenter.getWatcher(mWatchId);
+        }
+    }
 
 
     /**
@@ -296,12 +342,25 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
             }
         };
         mListView.setAdapter(mAdapter);
+
+        //观看者列表
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        mWatcherAdapter = new WatcherListAdapter();
+        mRecyclerView.setAdapter(mWatcherAdapter);
         initEvent();
     }
 
     @Override
     protected void setUpData() {
         mPresenter.getGift("0");
+        Glide.with(this)
+                .load(mUser.getPicture())
+                .centerCrop()
+                .placeholder(android.R.color.white)
+                .crossFade()
+                .transform(new CircleTransform(this))
+                .into(mIvAnchorIcon);
+        mTvName.setText(mUser.getUserName());
     }
 
     @Override
@@ -395,7 +454,7 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
             @Override
             public void onGetInChatRoom(int errorCode, int zegoToken, int zegoId) {
                 if (mIsPlaying) {
-                    mZegoAVApi.sendBroadcastTextMsgInChatRoom("Hello from Android SDK.");
+                    mZegoAVApi.sendBroadcastTextMsgInChatRoom("+" + mUser.getId());
                 } else {
                     startPublish();
                 }
@@ -451,6 +510,8 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
                     index = 2;
                 } else if (msg.startsWith("#")) {
                     index = 3;
+                } else if (msg.startsWith("+")) {
+                    index = 4;
                 }
 
                 Message message = new Message();
@@ -507,6 +568,7 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                     }
                 });
             }
@@ -746,6 +808,12 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
     }
 
     @Override
+    public void setWatcherList(WatcherPicEntity watcherPicEntity) {
+        mWatchList = watcherPicEntity.getBody();
+        mWatcherAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
         //old是改变前的左上右下坐标点值，没有old的是改变后的左上右下坐标点值
 
@@ -941,6 +1009,44 @@ public class LiveRoomActivity extends BaseActivity implements GiftCountDialogFra
                 }
             }
             return true;
+        }
+    }
+
+    class WatcherListAdapter extends RecyclerView.Adapter<WatcherListAdapter.MyViewHolder> {
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
+                    LiveRoomActivity.this).inflate(R.layout.adapter_chat_watcher_list_item, parent,
+                    false));
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position) {
+
+            String pic = mWatchList.get(position);
+            Glide.with(holder.iv.getContext())
+                    .load(pic)
+                    .centerCrop()
+                    .placeholder(android.R.color.white)
+                    .crossFade()
+                    .into(holder.iv);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mWatchList.size();
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView iv;
+
+            public MyViewHolder(View view) {
+                super(view);
+                iv = (ImageView) view.findViewById(R.id.iv_pic);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.RoomEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
 import com.futang.livestreaming.data.entity.UserEntity;
+import com.futang.livestreaming.data.entity.WatcherPicEntity;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -53,6 +54,10 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST("App_API.ashx?action=GigtList")
     Observable<GiftEntity> getGift(@Field("isCompany") String isCompany);
+
+    @FormUrlEncoded
+    @POST("App_API.ashx?action=GetUserPicByList")
+    Observable<WatcherPicEntity> getWatcherList(@Field("Id") String id);
 }
 
 

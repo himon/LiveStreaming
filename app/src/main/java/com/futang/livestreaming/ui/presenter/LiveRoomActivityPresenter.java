@@ -11,6 +11,7 @@ import com.futang.livestreaming.data.RepositoriesManager;
 import com.futang.livestreaming.data.entity.CreateRoomEntity;
 import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
+import com.futang.livestreaming.data.entity.WatcherPicEntity;
 import com.futang.livestreaming.ui.activity.live.LiveRoomActivity;
 import com.futang.livestreaming.ui.view.ILiveRoomView;
 import com.futang.livestreaming.util.ToastUtils;
@@ -20,6 +21,8 @@ import com.futang.livestreaming.widgets.CircleTransform;
 import com.github.lazylibrary.util.DensityUtil;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Call;
 
@@ -86,5 +89,31 @@ public class LiveRoomActivityPresenter {
                 super.onError(e);
             }
         });
+    }
+
+    public void getWatcher(List<String> watchId) {
+
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < watchId.size(); i++) {
+            if (i == watchId.size() - 1) {
+                sb.append(watchId.get(i));
+            } else {
+                sb.append(watchId.get(i) + ",");
+            }
+        }
+
+        mRepositoriesManager.getWatcherList(sb.toString()).subscribe(new SimpleObserver<WatcherPicEntity>() {
+            @Override
+            public void onNext(WatcherPicEntity watcherPicEntity) {
+                mILiveRoomView.setWatcherList(watcherPicEntity);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+
     }
 }
