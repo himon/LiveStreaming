@@ -54,7 +54,7 @@
         <activity
             android:name=".ui.activity.live.LiveRoomActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <!-- shareSDK三方登录 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

@@ -16,13 +16,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.data.C;
 import com.futang.livestreaming.data.entity.GiftEntity;
+import com.futang.livestreaming.data.event.ChatGiftEvent;
 import com.futang.livestreaming.data.event.LiveRoomEvent;
 import com.futang.livestreaming.ui.fragment.ChatGiftFragment;
+import com.futang.livestreaming.util.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -38,18 +41,21 @@ public class ChatGiftDialogFragment extends DialogFragment implements View.OnCli
     ViewPager mViewPager;
     TextView mTvMoney;
     TextView mTvRecharge;
+    EditText mEtCount;
     Button mBtnSend;
 
     private ArrayList<Fragment> mTabs = new ArrayList<Fragment>();
     private FragmentPagerAdapter mAdapter;
     private ArrayList<GiftEntity.BodyBean> mGiftList;
     private View mView;
+    private GiftEntity.BodyBean mGift;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         mView = inflater.inflate(R.layout.dialog_fragment_chat_gift, container);
+        EventBus.getDefault().register(this);
         initView();
         initData();
         return mView;
@@ -60,6 +66,7 @@ public class ChatGiftDialogFragment extends DialogFragment implements View.OnCli
         mTvMoney = (TextView) mView.findViewById(R.id.tv_money);
         mTvRecharge = (TextView) mView.findViewById(R.id.tv_recharge);
         mBtnSend = (Button) mView.findViewById(R.id.btn_send);
+        mEtCount = (EditText) mView.findViewById(R.id.et_gift_count);
 
         initEvent();
     }
@@ -129,12 +136,43 @@ public class ChatGiftDialogFragment extends DialogFragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_send:
-                EventBus.getDefault().post(new LiveRoomEvent("send_gift"));
+                sendGift();
                 break;
             case R.id.tv_recharge:
                 break;
         }
     }
+
+    private void sendGift() {
+        String s = mEtCount.getText().toString().trim();
+        Integer count = Integer.valueOf(s);
+        if (count < 1) {
+            ToastUtils.showToast(getActivity(), "输入的数量必须大于0!");
+            return;
+        }
+        LiveRoomEvent liveRoomEvent = new LiveRoomEvent("send_gift");
+        liveRoomEvent.setIndex(count);
+        liveRoomEvent.setGift(mGift);
+        EventBus.getDefault().post(liveRoomEvent);
+    }
+
+    public void onEvent(ChatGiftEvent event) {
+        int id = event.getIndex();
+        for (int i = 0; i < mGiftList.size(); i++) {
+            GiftEntity.BodyBean bodyBean = mGiftList.get(i);
+            if (id == bodyBean.getId()) {
+                mGift = bodyBean;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 }

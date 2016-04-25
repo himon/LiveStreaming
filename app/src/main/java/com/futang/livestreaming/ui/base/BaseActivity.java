@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActionMenuView;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.app.LiveApplication;
@@ -50,6 +52,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void stopCusDialog() {
         if (mCustomerProgress != null) {
             mCustomerProgress.dismiss();
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    public void hideKeyboard() {
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null) {
+                InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 }

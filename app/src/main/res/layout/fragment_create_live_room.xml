@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/transparent"
+                android:background="@color/colorPrimary"
                 tools:context="com.futang.livestreaming.ui.fragment.CreateLiveRoomFragment">
 
     <ImageView
-        android:layout_margin="20dp"
-        android:layout_alignParentRight="true"
         android:id="@+id/iv_close"
-        android:src="@drawable/img_close_live"
         android:layout_width="15dp"
-        android:layout_height="15dp"/>
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/img_close_live"/>
 
     <EditText
         android:id="@+id/et_title"
@@ -19,29 +20,29 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:maxLength="30"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/font_text_size_16"
         android:background="@android:color/transparent"
+        android:gravity="center_horizontal"
         android:hint="写个标题吧,可能看的人更多哦~!"
-        android:maxLines="2"/>
+        android:maxLength="30"
+        android:maxLines="2"
+        android:textSize="@dimen/font_text_size_16"/>
 
     <View
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@+id/et_title"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
         android:background="@android:color/white"/>
 
     <Button
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
         android:id="@+id/btn_live"
-        android:layout_marginBottom="100dp"
         android:layout_width="240dp"
         android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/shape_radius_start_live_button_bg"
         android:text="开始直播"/>
 

@@ -11,20 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.futang.livestreaming.R;
 import com.futang.livestreaming.data.C;
 import com.futang.livestreaming.data.entity.GiftEntity;
+import com.futang.livestreaming.data.event.ChatGiftEvent;
+import com.futang.livestreaming.data.event.LiveRoomEvent;
 import com.futang.livestreaming.ui.base.BaseActivity;
 import com.futang.livestreaming.ui.base.BaseFragment;
 import com.futang.livestreaming.widgets.CircleTransform;
+import com.futang.livestreaming.widgets.DividerGridItemDecoration;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +61,7 @@ public class ChatGiftFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         HomeAdapter mAdapter = new HomeAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
 
     }
 
@@ -86,6 +92,17 @@ public class ChatGiftFragment extends BaseFragment {
                     .into(holder.iv);
             holder.mTvName.setText(bodyBean.getGiftName());
             holder.mTvMoeny.setText(bodyBean.getGiftMoney() + "");
+
+            holder.mLLView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    LiveRoomEvent liveRoomEvent = new LiveRoomEvent("gift_id");
+//                    liveRoomEvent.setIndex(bodyBean.getId());
+//                    EventBus.getDefault().post(liveRoomEvent);
+                    ChatGiftEvent chatGiftEvent = new ChatGiftEvent(bodyBean.getId());
+                    EventBus.getDefault().post(chatGiftEvent);
+                }
+            });
         }
 
         @Override
@@ -98,9 +115,11 @@ public class ChatGiftFragment extends BaseFragment {
             ImageView iv;
             TextView mTvName;
             TextView mTvMoeny;
+            LinearLayout mLLView;
 
             public MyViewHolder(View view) {
                 super(view);
+                mLLView = (LinearLayout) view.findViewById(R.id.ll_view);
                 iv = (ImageView) view.findViewById(R.id.imageview);
                 mTvName = (TextView) view.findViewById(R.id.tv_name);
                 mTvMoeny = (TextView) view.findViewById(R.id.tv_money);

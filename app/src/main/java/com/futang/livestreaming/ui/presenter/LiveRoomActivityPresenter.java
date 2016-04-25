@@ -1,12 +1,23 @@
 package com.futang.livestreaming.ui.presenter;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Point;
+import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.futang.livestreaming.data.RepositoriesManager;
 import com.futang.livestreaming.data.entity.CreateRoomEntity;
 import com.futang.livestreaming.data.entity.GiftEntity;
 import com.futang.livestreaming.data.entity.StopRoomEntity;
+import com.futang.livestreaming.ui.activity.live.LiveRoomActivity;
 import com.futang.livestreaming.ui.view.ILiveRoomView;
+import com.futang.livestreaming.util.ToastUtils;
 import com.futang.livestreaming.util.callback.CreateRoomCallback;
 import com.futang.livestreaming.util.observer.SimpleObserver;
+import com.futang.livestreaming.widgets.CircleTransform;
+import com.github.lazylibrary.util.DensityUtil;
 
 import java.io.File;
 
@@ -39,7 +50,11 @@ public class LiveRoomActivityPresenter {
 
             @Override
             public void onResponse(CreateRoomEntity response) {
-                mILiveRoomView.setCreateRoomRes(response);
+                if ("0".equals(response.getCode())) {
+                    mILiveRoomView.setCreateRoomRes(response);
+                } else {
+                    ToastUtils.showToast((LiveRoomActivity) mILiveRoomView, response.getMsg());
+                }
 
             }
         });
